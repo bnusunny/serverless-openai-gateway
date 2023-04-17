@@ -22,7 +22,7 @@ Resources:
         Variables:
           AWS_LWA_READINESS_CHECK_PROTOCOL: tcp
           AWS_LWA_INVOKE_MODE: RESPONSE_STREAM
-          RUST_LOG: trace
+          RUST_LOG: info
       FunctionUrlConfig:
         AuthType: NONE
         InvokeMode: RESPONSE_STREAM
