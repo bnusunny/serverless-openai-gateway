@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  serverless-openai-gateway
+  
+  Sample SAM Template for serverless-openai-gateway
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 900
+    MemorySize: 128
+
+Resources:
+  OpenAIFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      PackageType: Image
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          AWS_LWA_READINESS_CHECK_PROTOCOL: tcp
+          AWS_LWA_INVOKE_MODE: RESPONSE_STREAM
+          RUST_LOG: trace
+      FunctionUrlConfig:
+        AuthType: NONE
+        InvokeMode: RESPONSE_STREAM
+    Metadata:
+      DockerTag: v1
+      DockerContext: .
+      Dockerfile: Dockerfile
+
+Outputs:
+  OpenAIFunctionUrl:
+    Description: "Function URL for OpenAI function"
+    Value: !GetAtt OpenAIFunctionUrl.FunctionUrl
+  OpenAIFunction:
+    Description: "OpenAI Lambda Function ARN"
+    Value: !GetAtt OpenAIFunction.Arn
